@@ -2,6 +2,8 @@ package game;
 
 import model.Disk;
 import model.GameState;
+import org.tinylog.Logger;
+import puzzle.solver.BreadthFirstSearch;
 import util.GameMoveSelector;
 import jakarta.xml.bind.JAXBContext;
 import jakarta.xml.bind.JAXBException;
@@ -24,10 +26,11 @@ import java.util.Arrays;
 public class GameController {
 
     private GameState gameState = LoadXML();
-
     private GameMoveSelector selector = new GameMoveSelector(gameState);
 
-    //private BreadthFirstSearch solver = new BreadthFirstSearch();
+    private BreadthFirstSearch solver = new BreadthFirstSearch();
+
+    private static final String gamestateXML = "gamestate.xml";
 
     @FXML
     private GridPane poles;
@@ -49,19 +52,18 @@ public class GameController {
         }
         poles.setOnMouseClicked(this::handleMouseClick);
         restart.setOnAction(this::resetButtonClicked);
-
         RefreshGrid();
     }
 
     private void resetButtonClicked(ActionEvent actionEvent) {
-        System.out.println("EVENT: New game started.");
+        //System.out.println("EVENT: New game started.");
+        solver.solveAndPrintSolution(gameState);
         gameState.reset();
         selector.reset();
         RefreshGrid();
         CreateXML();
+        Logger.debug("Restarting game...");
     }
-
-
 
     private StackPane createDisk(Disk disk){
         var diskPane = new StackPane();
@@ -79,16 +81,20 @@ public class GameController {
 
         var row = result.row;
         var col = result.column;
-        System.out.printf("EVENT: Clicked on beam (%d)%n", col);
+        //System.out.printf("EVENT: Clicked on beam (%d)%n", col);
+        Logger.debug("Clicked on beam " + col);
         selector.select(gameState.getContents()[col]);
         if (selector.isReadyToMove()){
             selector.makeMove();
             CreateXML();
+            RefreshGrid();
+            CheckVictory();
         }
 
-        RefreshGrid();
+
         showSelectionPhaseChange(row,col);
     }
+
 
     private void RefreshGrid() {
         poles.getChildren().clear();
@@ -104,9 +110,14 @@ public class GameController {
                 }
             }
         }
-
         moves.setText("Moves: " + gameState.getNum_moves());
+    }
 
+    private void CheckVictory() {
+        if (gameState.isSolved()){
+            //System.out.println("THE GAME IS SOLVED!");
+            Logger.debug("THE GAME IS SOLVED!");
+        }
     }
 
     private void showSelectionPhaseChange(int row, int col){
@@ -156,15 +167,12 @@ public class GameController {
 
     private GameState LoadXML(){
         try {
-            // Create JAXB context
+            Logger.debug("Loading " + gamestateXML + "...");
             JAXBContext context = JAXBContext.newInstance(GameState.class);
-
-            // Create unmarshaller
             Unmarshaller unmarshaller = context.createUnmarshaller();
-
-            // Unmarshal the XML file to a state object
-            GameState state = (GameState) unmarshaller.unmarshal(new File("gamestate.xml"));
-            System.out.println("Succefully loaded gamestate.xml");
+            GameState state = (GameState) unmarshaller.unmarshal(new File(gamestateXML));
+            //System.out.println("Succefully loaded gamestate.xml");
+            Logger.debug("Loading "+gamestateXML + " complete." );
             return state;
         } catch (Exception e) {
             e.printStackTrace();
@@ -174,20 +182,10 @@ public class GameController {
 
     private void CreateXML(){
         try {
-
-            // Create JAXB context
             JAXBContext context = JAXBContext.newInstance(GameState.class);
-
-            // Create marshaller
             Marshaller marshaller = context.createMarshaller();
-
-            // To format XML
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-
-            // Marshal the person object to a file
-            marshaller.marshal(gameState, new File("gamestate.xml"));
-
-            // You can also marshal to a StringWriter, OutputStream, etc.
+            marshaller.marshal(gameState, new File(gamestateXML));
         } catch (JAXBException e) {
             e.printStackTrace();
         }

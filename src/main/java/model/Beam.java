@@ -13,6 +13,11 @@ public class Beam {
 
     private int id;
 
+    /**
+     * Returns the id of the beams representing the column on the grid.
+     *
+     * @return the id representing the column on the grid.
+     */
     @XmlElement
     public int getId() {
         return id;

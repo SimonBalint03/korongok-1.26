@@ -5,6 +5,7 @@ import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlList;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import javafx.scene.paint.Color;
+import org.tinylog.Logger;
 import puzzle.TwoPhaseMoveState;
 
 import java.util.Arrays;
@@ -34,7 +35,14 @@ public class GameState implements TwoPhaseMoveState<Integer> {
     @XmlElement
     public static final int MAX_DISK = 10 ;
 
+    /**
+     *  The color code for the Blue color of the disks.
+     */
     public static final String BLUE = "#2c29ff";
+
+    /**
+     *  The color code for the Red color of the disks.
+     */
     public static final String RED = "#ff2945";
 
     /**
@@ -89,6 +97,12 @@ public class GameState implements TwoPhaseMoveState<Integer> {
         return true;
     }
 
+    /**
+     * Checks if all the beams have the correct disks on them.
+     *
+     * @return True if the first beam is all red and second is all blue. False else.
+     */
+
     @Override
     public boolean isSolved() {
         for (Disk disk : contents[0].getDisks()) {
@@ -107,6 +121,13 @@ public class GameState implements TwoPhaseMoveState<Integer> {
         return true;
     }
 
+    /**
+     *
+     * Returns whether move from -> to is legal.
+     *
+     * @param integerTwoPhaseMove two integers representing the beam id's.
+     * @return True if the move is legal, else false.
+     */
     @Override
     public boolean isLegalMove(TwoPhaseMove<Integer> integerTwoPhaseMove) {
         var from = integerTwoPhaseMove.from();
@@ -124,26 +145,49 @@ public class GameState implements TwoPhaseMoveState<Integer> {
         return true;
     }
 
+    /**
+     * Makes move from -> to if it is legal.
+     *
+     * @param integerTwoPhaseMove two integers representing the beam id's.
+     */
     @Override
     public void makeMove(TwoPhaseMove<Integer> integerTwoPhaseMove) {
         if (isLegalMove(integerTwoPhaseMove)){
             var from = integerTwoPhaseMove.from();
             var to = integerTwoPhaseMove.to();
 
-            System.out.println("MOVE: " + contents[from].getDisks().getFirst() + " from: " + from + " to " + to);
+            //System.out.println("MOVE: " + contents[from].getDisks().getFirst() + " from: " + from + " to " + to);
+            Logger.debug("MOVE: " + contents[from].getDisks().getFirst() + " from: " + from + " to " + to);
 
             contents[to].getDisks().addFirst(contents[from].getDisks().get(0));
             contents[from].getDisks().remove(0);
-
             num_moves++;
-
         }
 
     }
 
     @Override
     public Set<TwoPhaseMove<Integer>> getLegalMoves() {
-        return Set.of();
+        Set<TwoPhaseMove<Integer>> legalMoves = new HashSet<>();
+        if (isLegalMove(new TwoPhaseMove<>(0,1))){
+            legalMoves.add(new TwoPhaseMove<>(0,1));
+        }
+        if (isLegalMove(new TwoPhaseMove<>(0,2))){
+            legalMoves.add(new TwoPhaseMove<>(0,2));
+        }
+        if (isLegalMove(new TwoPhaseMove<>(1,0))){
+            legalMoves.add(new TwoPhaseMove<>(1,0));
+        }
+        if (isLegalMove(new TwoPhaseMove<>(1,2))){
+            legalMoves.add(new TwoPhaseMove<>(1,2));
+        }
+        if (isLegalMove(new TwoPhaseMove<>(2,0))){
+            legalMoves.add(new TwoPhaseMove<>(2,0));
+        }
+        if (isLegalMove(new TwoPhaseMove<>(2,1))){
+            legalMoves.add(new TwoPhaseMove<>(2,1));
+        }
+        return legalMoves;
     }
 
     @Override
@@ -151,6 +195,10 @@ public class GameState implements TwoPhaseMoveState<Integer> {
         return null;
     }
 
+
+    /**
+     *
+     */
     public void reset() {
         contents = new Beam[] {
                 new Beam(0,NUM_DISK,RED,BLUE),

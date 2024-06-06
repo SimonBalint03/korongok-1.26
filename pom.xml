@@ -6,7 +6,10 @@
     <groupId>hu.unideb.inf</groupId>
     <artifactId>korongok-1.26</artifactId>
     <version>1.0</version>
-    <description><!-- TODO: a short description of your project --></description>
+    <description>Adott 8 különböző méretű, piros és kék színűi középen lyukas korong.
+        Bármelyik rúdról át lehet helyezni a legfelső korongot egy olyan rúdra, melyen a legfelső korong nagyobb vagy megegyező méretűi az áthelyezettel.
+        Érjüik el, hogy a piros korongok az első, a kék korongok pedig a második rúdra kerüljenek.
+    </description>
     <developers>
         <developer>
             <id>SimonBalint03</id>
@@ -68,6 +71,19 @@
             <groupId>com.sun.xml.bind</groupId>
             <artifactId>jaxb-impl</artifactId>
             <version>4.0.5</version>
+            <scope>runtime</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.tinylog/tinylog-api -->
+        <dependency>
+            <groupId>org.tinylog</groupId>
+            <artifactId>tinylog-api</artifactId>
+            <version>2.6.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.tinylog/tinylog-impl -->
+        <dependency>
+            <groupId>org.tinylog</groupId>
+            <artifactId>tinylog-impl</artifactId>
+            <version>2.6.1</version>
             <scope>runtime</scope>
         </dependency>
     </dependencies>
