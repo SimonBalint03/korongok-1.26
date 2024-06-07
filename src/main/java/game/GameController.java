@@ -1,8 +1,11 @@
 package game;
 
+import model.Beam;
 import model.Disk;
 import model.GameState;
 import org.tinylog.Logger;
+import puzzle.State;
+import puzzle.TwoPhaseMoveState;
 import puzzle.solver.BreadthFirstSearch;
 import util.GameMoveSelector;
 import jakarta.xml.bind.JAXBContext;
@@ -21,8 +24,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 import java.io.File;
-import java.util.Arrays;
+import java.util.Optional;
 
+/**
+ *  Controls the logic of the gameplay.
+ */
 public class GameController {
 
     private GameState gameState = LoadXML();
@@ -30,13 +36,13 @@ public class GameController {
 
     private BreadthFirstSearch solver = new BreadthFirstSearch();
 
-    private static final String gamestateXML = "gamestate.xml";
+    private static final String GAMESTATE_XML = "gamestate.xml";
 
     @FXML
     private GridPane poles;
 
     @FXML
-    private Button restart;
+    private Button restart,solve;
 
     @FXML
     private Text moves;
@@ -52,12 +58,18 @@ public class GameController {
         }
         poles.setOnMouseClicked(this::handleMouseClick);
         restart.setOnAction(this::resetButtonClicked);
+        solve.setOnAction(this::solveButtonClicked);
+        RefreshGrid();
+    }
+
+    private void solveButtonClicked(ActionEvent actionEvent) {
+        gameState.reset();
+        solver.solveAndPrintSolution(gameState);
         RefreshGrid();
     }
 
     private void resetButtonClicked(ActionEvent actionEvent) {
         //System.out.println("EVENT: New game started.");
-        solver.solveAndPrintSolution(gameState);
         gameState.reset();
         selector.reset();
         RefreshGrid();
@@ -167,12 +179,12 @@ public class GameController {
 
     private GameState LoadXML(){
         try {
-            Logger.debug("Loading " + gamestateXML + "...");
+            Logger.debug("Loading " + GAMESTATE_XML + "...");
             JAXBContext context = JAXBContext.newInstance(GameState.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
-            GameState state = (GameState) unmarshaller.unmarshal(new File(gamestateXML));
+            GameState state = (GameState) unmarshaller.unmarshal(new File(GAMESTATE_XML));
             //System.out.println("Succefully loaded gamestate.xml");
-            Logger.debug("Loading "+gamestateXML + " complete." );
+            Logger.debug("Loading "+ GAMESTATE_XML + " complete." );
             return state;
         } catch (Exception e) {
             e.printStackTrace();
@@ -185,7 +197,7 @@ public class GameController {
             JAXBContext context = JAXBContext.newInstance(GameState.class);
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            marshaller.marshal(gameState, new File(gamestateXML));
+            marshaller.marshal(gameState, new File(GAMESTATE_XML));
         } catch (JAXBException e) {
             e.printStackTrace();
         }

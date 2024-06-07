@@ -6,9 +6,15 @@ import javafx.scene.paint.Paint;
 
 import java.util.Objects;
 
+/**
+ * Represent a row of a column of the playable grid.
+ */
 @XmlRootElement
 public class Disk {
 
+    /**
+     * The color code for the disk.
+     */
     @XmlElement
     public String color;
 
@@ -22,10 +28,20 @@ public class Disk {
     public Disk() {
     }
 
+    /**
+     * Returns the color of this disk.
+     *
+     * @return The color code of this disk.
+     */
     public String getColor(){
         return color;
     }
 
+    /**
+     * Returns the size of this disk.
+     *
+     * @return The size of this disk.
+     */
     @XmlElement
     public int getSize() {
         return size;

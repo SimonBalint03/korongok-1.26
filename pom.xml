@@ -28,10 +28,14 @@
         <maven.javadoc.version>3.3.2</maven.javadoc.version>
         <maven.checkstyle.version>3.1.2</maven.checkstyle.version>
         <maven.surefire.version>3.0.0-M6</maven.surefire.version>
-        <jacoco.version>0.8.8</jacoco.version>
         <exec.mainClass>game.Main</exec.mainClass>
     </properties>
     <dependencies>
+        <dependency>
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+            <version>0.8.12</version>
+        </dependency>
         <dependency>
             <groupId>hu.unideb.inf</groupId>
             <artifactId>homework-project-utils</artifactId>
@@ -112,7 +116,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco.version}</version>
+                <version>0.8.12</version>
                 <executions>
                     <execution>
                         <phase>initialize</phase>
@@ -187,7 +191,7 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco.version}</version>
+                <version>0.8.12</version>
                 <reportSets>
                     <reportSet>
                         <reports>

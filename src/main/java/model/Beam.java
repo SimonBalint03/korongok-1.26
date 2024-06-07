@@ -5,7 +5,12 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
+/**
+ * Represents a column of the playable grid.
+ * Contains every disk on the column.
+ */
 @XmlRootElement
 public class Beam {
 
@@ -16,11 +21,21 @@ public class Beam {
     /**
      * Returns the id of the beams representing the column on the grid.
      *
-     * @return the id representing the column on the grid.
+     * @return The id representing the column on the grid.
      */
     @XmlElement
     public int getId() {
         return id;
+    }
+
+    /**
+     * Returns an ArrayList of Disk objects that are on this beam.
+     *
+     * @return An ArrayList of Disk objects
+     */
+    @XmlElement
+    public ArrayList<Disk> getDisks() {
+        return disks;
     }
 
     public void setId(int id) {
@@ -50,9 +65,20 @@ public class Beam {
     public Beam() {
     }
 
-    @XmlElement
-    public ArrayList<Disk> getDisks() {
-        return disks;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Beam beam = (Beam) o;
+        return id == beam.id && Objects.equals(disks, beam.disks);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hashCode(disks);
+        result = 31 * result + id;
+        return result;
     }
 
     @Override
