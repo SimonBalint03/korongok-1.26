@@ -52,7 +52,7 @@ public class GameState implements TwoPhaseMoveState<Integer> {
      */
     private Beam[] contents;
 
-    int[][] possibleMoves = {
+    private static final int[][] possibleMoves = {
             {0, 1},
             {0, 2},
             {1, 0},
