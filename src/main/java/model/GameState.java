@@ -52,6 +52,14 @@ public class GameState implements TwoPhaseMoveState<Integer> {
      */
     private Beam[] contents;
 
+    int[][] possibleMoves = {
+            {0, 1},
+            {0, 2},
+            {1, 0},
+            {1, 2},
+            {2, 0},
+            {2, 1}
+    };
 
     private int num_moves = 0;
 
@@ -199,25 +207,12 @@ public class GameState implements TwoPhaseMoveState<Integer> {
     @Override
     public Set<TwoPhaseMove<Integer>> getLegalMoves() {
         Set<TwoPhaseMove<Integer>> legalMoves = new HashSet<>();
-        if (isLegalMove(new TwoPhaseMove<>(0, 1))){
-            legalMoves.add(new TwoPhaseMove<>(0,1));
+        for (int[] move : possibleMoves) {
+            TwoPhaseMove<Integer> twoPhaseMove = new TwoPhaseMove<>(move[0], move[1]);
+            if (isLegalMove(twoPhaseMove)) {
+                legalMoves.add(twoPhaseMove);
+            }
         }
-        if (isLegalMove(new TwoPhaseMove<>(0,2))){
-            legalMoves.add(new TwoPhaseMove<>(0,2));
-        }
-        if (isLegalMove(new TwoPhaseMove<>(1,0))){
-            legalMoves.add(new TwoPhaseMove<>(1,0));
-        }
-        if (isLegalMove(new TwoPhaseMove<>(1,2))){
-            legalMoves.add(new TwoPhaseMove<>(1,2));
-        }
-        if (isLegalMove(new TwoPhaseMove<>(2,0))){
-            legalMoves.add(new TwoPhaseMove<>(2,0));
-        }
-        if (isLegalMove(new TwoPhaseMove<>(2,1))){
-            legalMoves.add(new TwoPhaseMove<>(2,1));
-        }
-        //Logger.info("LegalMoves: "+legalMoves);
         return legalMoves;
     }
 
