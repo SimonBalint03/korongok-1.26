@@ -36,7 +36,7 @@ public class GameController {
 
     private BreadthFirstSearch solver = new BreadthFirstSearch();
 
-    private static final String GAMESTATE_XML = "gamestate.xml";
+    private static final String GAMESTATE_XML = "src/main/resources/gamestate.xml";
 
     @FXML
     private GridPane poles;
@@ -182,7 +182,7 @@ public class GameController {
             Logger.debug("Loading " + GAMESTATE_XML + "...");
             JAXBContext context = JAXBContext.newInstance(GameState.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
-            GameState state = (GameState) unmarshaller.unmarshal(new File(GAMESTATE_XML));
+            GameState state = (GameState) unmarshaller.unmarshal(new File(String.valueOf(getClass().getResourceAsStream(GAMESTATE_XML))));
             //System.out.println("Succefully loaded gamestate.xml");
             Logger.debug("Loading "+ GAMESTATE_XML + " complete." );
             return state;
@@ -197,7 +197,7 @@ public class GameController {
             JAXBContext context = JAXBContext.newInstance(GameState.class);
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            marshaller.marshal(gameState, new File(GAMESTATE_XML));
+            marshaller.marshal(gameState, new File(String.valueOf(getClass().getResourceAsStream(GAMESTATE_XML))));
         } catch (JAXBException e) {
             e.printStackTrace();
         }

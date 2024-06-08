@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<gameState>
+    <NUM_BEAM>3</NUM_BEAM>
+    <NUM_DISK>3</NUM_DISK>
+    <MAX_DISK>16</MAX_DISK>
+    <contents>
+        <disks>
+            <color>#2c29ff</color>
+            <size>40</size>
+        </disks>
+        <disks>
+            <color>#ff2945</color>
+            <size>60</size>
+        </disks>
+        <id>0</id>
+    </contents>
+    <contents>
+        <disks>
+            <color>#ff2945</color>
+            <size>40</size>
+        </disks>
+        <disks>
+            <color>#2c29ff</color>
+            <size>60</size>
+        </disks>
+        <id>1</id>
+    </contents>
+    <contents>
+        <disks>
+            <color>#ff2945</color>
+            <size>20</size>
+        </disks>
+        <disks>
+            <color>#2c29ff</color>
+            <size>20</size>
+        </disks>
+        <id>2</id>
+    </contents>
+    <num_moves>2</num_moves>
+</gameState>
