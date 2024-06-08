@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class GameApplication extends Application {
     @Override
-    public void start(Stage stage) throws IOException, IOException {
+    public void start(Stage stage) throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/game.fxml")));
         stage.setTitle("1.26 feladat - Tornyok");
         Scene scene = new Scene(root);

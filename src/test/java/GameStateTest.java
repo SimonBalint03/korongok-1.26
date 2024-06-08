@@ -1,6 +1,5 @@
 import model.GameState;
 import model.Beam;
-import model.Disk;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import puzzle.TwoPhaseMoveState.TwoPhaseMove;
@@ -52,8 +51,8 @@ public class GameStateTest {
     public void testIsSolved() {
         assertFalse(gameState.isSolved());
         gameState.setContents(new Beam[]{
-                new Beam(0,gameState.NUM_DISK,gameState.RED,gameState.RED),
-                new Beam(1,gameState.NUM_DISK,gameState.BLUE,gameState.BLUE),
+                new Beam(0, GameState.NUM_DISK, GameState.RED, GameState.RED),
+                new Beam(1, GameState.NUM_DISK, GameState.BLUE, GameState.BLUE),
                 new Beam(2,0),
         });
         assertTrue(gameState.isSolved());

@@ -18,7 +18,7 @@ public class GameMoveSelector {
         READY_TO_MOVE
     }
 
-    private GameState gameState;
+    private final GameState gameState;
     private Phase phase = Phase.SELECT_FROM;
     private Beam from;
     private Beam to;

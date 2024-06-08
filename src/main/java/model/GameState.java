@@ -1,10 +1,7 @@
 package model;
 
-import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlList;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import javafx.scene.paint.Color;
 import org.tinylog.Logger;
 import puzzle.TwoPhaseMoveState;
 
@@ -122,10 +119,7 @@ public class GameState implements TwoPhaseMoveState<Integer> {
      */
     @Override
     public boolean isLegalToMoveFrom(Integer integer) {
-        if (contents[integer].getDisks().isEmpty()) {
-            return false;
-        }
-        return true;
+        return !contents[integer].getDisks().isEmpty();
     }
 
     /**
@@ -170,10 +164,7 @@ public class GameState implements TwoPhaseMoveState<Integer> {
         if (contents[to].getDisks().isEmpty()) return true;
 
         if (contents[to].getDisks().size()+1 > MAX_DISK) return false;
-        if (contents[to].getDisks().getFirst().getSize() < contents[from].getDisks().getFirst().getSize()){
-            return false;
-        }
-        return true;
+        return contents[to].getDisks().getFirst().getSize() >= contents[from].getDisks().getFirst().getSize();
     }
 
     /**
@@ -190,8 +181,8 @@ public class GameState implements TwoPhaseMoveState<Integer> {
 
             //System.out.println("MOVE: " + contents[from].getDisks().getFirst() + " from: " + from + " to " + to);
             Logger.debug("MOVE: " + contents[from].getDisks().getFirst() + " from: " + from + " to " + to);
-            contents[to].getDisks().addFirst(contents[from].getDisks().get(0));
-            contents[from].getDisks().remove(0);
+            contents[to].getDisks().addFirst(contents[from].getDisks().getFirst());
+            contents[from].getDisks().removeFirst();
             Logger.debug("GameState: " + this);
 
         }

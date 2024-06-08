@@ -2,7 +2,6 @@ package model;
 
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import javafx.scene.paint.Paint;
 
 import java.util.Objects;
 

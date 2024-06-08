@@ -42,9 +42,9 @@ public class DiskTest {
         Disk disk4 = new Disk("blue", 3);
         Disk disk5 = new Disk("red", 6);
 
-        assertTrue(disk1.equals(disk3));
-        assertFalse(disk1.equals(disk2));
-        assertFalse(disk1.equals(disk5));
+        assertEquals(disk1, disk3);
+        assertNotEquals(disk1, disk2);
+        assertNotEquals(disk1, disk5);
 
         assertEquals(disk1.hashCode(), disk3.hashCode());
         assertNotEquals(disk1.hashCode(), disk2.hashCode());

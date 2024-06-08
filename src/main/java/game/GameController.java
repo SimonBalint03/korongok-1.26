@@ -1,12 +1,9 @@
 package game;
 
 import javafx.scene.layout.Pane;
-import model.Beam;
 import model.Disk;
 import model.GameState;
 import org.tinylog.Logger;
-import puzzle.State;
-import puzzle.TwoPhaseMoveState;
 import puzzle.solver.BreadthFirstSearch;
 import util.GameMoveSelector;
 import jakarta.xml.bind.JAXBContext;
@@ -25,17 +22,16 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 
 import java.io.File;
-import java.util.Optional;
 
 /**
  *  Controls the logic of the gameplay.
  */
 public class GameController {
 
-    private GameState gameState = LoadXML();
-    private GameMoveSelector selector = new GameMoveSelector(gameState);
+    private final GameState gameState = LoadXML();
+    private final GameMoveSelector selector = new GameMoveSelector(gameState);
 
-    private BreadthFirstSearch solver = new BreadthFirstSearch();
+    private final BreadthFirstSearch solver = new BreadthFirstSearch();
 
     private static final String GAMESTATE_XML = "gamestate.xml";
 
@@ -54,10 +50,10 @@ public class GameController {
     @FXML
     private void initialize(){
 
-        for (int i = 0; i < gameState.START_BEAMS.length; i++) {
+        for (int i = 0; i < GameState.START_BEAMS.length; i++) {
             for (int j = 0; j < gameState.getContents()[i].getDisks().size(); j++) {
                 var disk = createDisk(gameState.getContents()[i].getDisks().get(j));
-                poles.add(disk, i, j+(gameState.MAX_DISK-gameState.NUM_DISK));
+                poles.add(disk, i, j+(GameState.MAX_DISK - GameState.NUM_DISK));
             }
         }
         poles.setOnMouseClicked(this::handleMouseClick);
@@ -144,8 +140,8 @@ public class GameController {
     private void showSelectionPhaseChange(int row, int col){
         switch (selector.getPhase()){
             case SELECT_FROM -> {}
-            case SELECT_TO -> { showSelection(row,col);}
-            case READY_TO_MOVE -> { hideSelection(row,col);}
+            case SELECT_TO -> showSelection(row,col);
+            case READY_TO_MOVE -> hideSelection(row,col);
         }
     }
 
@@ -179,8 +175,7 @@ public class GameController {
 
         int row = (int) Math.floor(y / cellHeight);
         int column = (int) Math.floor(x / cellWidth);
-        ClickPosition result = new ClickPosition(row, column);
-        return result;
+        return new ClickPosition(row, column);
     }
 
     private record ClickPosition(int row, int column) {
@@ -192,11 +187,10 @@ public class GameController {
             JAXBContext context = JAXBContext.newInstance(GameState.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
             GameState state = (GameState) unmarshaller.unmarshal(new File("src/main/resources/gamestate.xml"));
-            //System.out.println("Succefully loaded gamestate.xml");
             Logger.debug("Loading "+ GAMESTATE_XML + " complete." );
             return state;
         } catch (Exception e) {
-            e.printStackTrace();
+            Logger.error("Failed to load: " + GAMESTATE_XML);
         }
         return new GameState();
     }
@@ -208,7 +202,7 @@ public class GameController {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             marshaller.marshal(gameState, new File("src/main/resources/gamestate.xml"));
         } catch (JAXBException e) {
-            e.printStackTrace();
+            Logger.error("Failed to create: " + GAMESTATE_XML);
         }
     }
 }

@@ -49,8 +49,8 @@ public class BeamTest {
 
         assertEquals(3, beam2.getId());
         assertEquals(1, beam2.getDisks().size());
-        assertEquals("green", beam2.getDisks().get(0).getColor());
-        assertEquals(50, beam2.getDisks().get(0).getSize());
+        assertEquals("green", beam2.getDisks().getFirst().getColor());
+        assertEquals(50, beam2.getDisks().getFirst().getSize());
     }
 
     @Test
@@ -59,9 +59,9 @@ public class BeamTest {
         Beam beam4 = new Beam(2, 0);
         Beam beam5 = new Beam(1, 2, "red", "blue");
 
-        assertTrue(beam1.equals(beam3));
-        assertFalse(beam1.equals(beam2));
-        assertFalse(beam1.equals(beam5));
+        assertEquals(beam1, beam3);
+        assertNotEquals(beam1, beam2);
+        assertNotEquals(beam1, beam5);
 
         assertEquals(beam1.hashCode(), beam3.hashCode());
         assertNotEquals(beam1.hashCode(), beam2.hashCode());
