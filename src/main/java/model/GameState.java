@@ -29,7 +29,7 @@ public class GameState implements TwoPhaseMoveState<Integer> {
      * The number of disks to place onto beams.
      */
     @XmlElement
-    public static final int NUM_DISK = 3;
+    public static final int NUM_DISK = 5;
 
     /**
      * The maximum amount of disks a beam can have.
@@ -40,12 +40,12 @@ public class GameState implements TwoPhaseMoveState<Integer> {
     /**
      *  The color code for the Blue color of the disks.
      */
-    public static final String BLUE = "#2c29ff";
+    public static final String BLUE = "#3572EF";
 
     /**
      *  The color code for the Red color of the disks.
      */
-    public static final String RED = "#ff2945";
+    public static final String RED = "#FF0000";
 
     /**
      * Stores the contents of all beams.
@@ -136,12 +136,12 @@ public class GameState implements TwoPhaseMoveState<Integer> {
     @Override
     public boolean isSolved() {
         for (Disk disk : contents[0].getDisks()) {
-            if (disk.getColor() != RED) {
+            if (!Objects.equals(disk.getColor(), RED)) {
                 return false;
             }
         }
         for (Disk disk : contents[1].getDisks()) {
-            if (disk.getColor() != BLUE) {
+            if (!Objects.equals(disk.getColor(), BLUE)) {
                 return false;
             }
         }
@@ -149,7 +149,6 @@ public class GameState implements TwoPhaseMoveState<Integer> {
             return false;
         }
         Logger.debug("IsSolved: true");
-
         return true;
     }
 

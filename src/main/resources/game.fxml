@@ -1,17 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
 <?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
-<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" style="-fx-background-color: cornsilk;" stylesheets="@ui.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.GameController">
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@ui.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="game.GameController">
    <children>
-      <AnchorPane prefHeight="450.0" prefWidth="800.0" stylesheets="@ui.css">
+      <AnchorPane prefHeight="450.0" prefWidth="800.0" style="-fx-background-color: #F6E9B2;" stylesheets="@ui.css">
          <children>
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b9b9b9" height="400.0" layoutX="100.0" layoutY="10.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b9b9b9" height="400.0" layoutX="300.0" layoutY="10.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
-            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#b9b9b9" height="400.0" layoutX="500.0" layoutY="10.0" stroke="BLACK" strokeType="INSIDE" width="10.0" />
+            <Rectangle fill="#f6e9b2" height="450.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="800.0">
+               <effect>
+                  <InnerShadow height="15.0" radius="7.0" width="15.0">
+                     <input>
+                        <BoxBlur height="10.0" iterations="3" width="10.0" />
+                     </input></InnerShadow>
+               </effect>
+            </Rectangle>
+            <Rectangle fill="#b9b9b9" height="400.0" layoutX="100.0" layoutY="10.0" stroke="BLACK" styleClass="beam" width="10.0">
+               <effect>
+                  <Blend />
+               </effect></Rectangle>
+            <Rectangle fill="#b9b9b9" height="400.0" layoutX="300.0" layoutY="10.0" stroke="BLACK" styleClass="beam" width="10.0">
+               <effect>
+                  <Blend />
+               </effect></Rectangle>
+            <Rectangle fill="#b9b9b9" height="400.0" layoutX="500.0" layoutY="10.0" stroke="BLACK" styleClass="beam" width="10.0">
+               <effect>
+                  <Blend />
+               </effect></Rectangle>
             <GridPane fx:id="poles" layoutX="5.0" layoutY="53.0" prefHeight="340.0" prefWidth="660.0">
               <columnConstraints>
                 <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" maxWidth="100.0" minWidth="10.0" percentWidth="30.0" prefWidth="100.0" />
@@ -37,14 +57,70 @@
                   <RowConstraints maxHeight="20.0" minHeight="10.0" prefHeight="20.0" valignment="CENTER" vgrow="SOMETIMES" />
                   <RowConstraints maxHeight="20.0" minHeight="10.0" prefHeight="20.0" valignment="CENTER" vgrow="SOMETIMES" />
               </rowConstraints>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
             </GridPane>
-            <Text fx:id="moves" boundsType="LOGICAL_VERTICAL_CENTER" layoutX="5.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Moves: 0" wrappingWidth="91.13671875" />
          </children>
       </AnchorPane>
-      <AnchorPane layoutY="450.0" prefHeight="150.0" prefWidth="800.0" style="-fx-background-color: darksalmon;">
+      <AnchorPane layoutY="450.0" prefHeight="150.0" prefWidth="800.0" style="-fx-background-color: #81A263;">
          <children>
-            <Button fx:id="restart" layoutX="600.0" layoutY="60.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Start New" textAlignment="CENTER" />
-            <Button fx:id="solve" layoutX="422.0" layoutY="60.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Solve" textAlignment="CENTER" />
+            <Button fx:id="restart" layoutX="490.0" layoutY="48.0" mnemonicParsing="false" prefHeight="54.0" prefWidth="180.0" style="-fx-font-size: 24;" text="Új Játék" textAlignment="CENTER">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <effect>
+                  <InnerShadow blurType="GAUSSIAN" height="15.0" offsetX="-3.0" offsetY="-3.0" radius="7.0" width="15.0">
+                     <color>
+                        <Color red="0.17105263471603394" green="0.17105263471603394" blue="0.17105263471603394" />
+                     </color>
+                  </InnerShadow>
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <Button fx:id="solve" layoutX="21.0" layoutY="60.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="100.0" text="Megoldás" textAlignment="CENTER">
+               <effect>
+                  <InnerShadow blurType="GAUSSIAN" height="15.0" offsetX="-3.0" offsetY="-3.0" radius="7.0" width="15.0">
+                     <color>
+                        <Color red="0.17105263471603394" green="0.17105263471603394" blue="0.17105263471603394" />
+                     </color>
+                  </InnerShadow>
+               </effect>
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor></Button>
+            <Text id="moveCounter" fx:id="moves" boundsType="LOGICAL_VERTICAL_CENTER" layoutX="21.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Lépések : 0" wrappingWidth="110.0" />
+            <Rectangle fill="#e7d37f" height="10.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="800.0" />
          </children></AnchorPane>
+      <Pane fx:id="victoryPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" pickOnBounds="false" prefHeight="600.0" prefWidth="800.0" visible="false">
+         <children>
+            <Pane opacity="0.6" prefHeight="450.0" prefWidth="800.0" style="-fx-background-color: lightgrey; -fx-opacity: 55%;" />
+            <Label alignment="CENTER" contentDisplay="CENTER" pickOnBounds="false" prefHeight="450.0" prefWidth="800.0" text="Nyertél!">
+               <font>
+                  <Font name="Leelawadee UI Bold" size="60.0" />
+               </font>
+               <textFill>
+                  <RadialGradient centerX="0.48342541436464087" centerY="0.5" radius="0.5">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="1.0" green="0.45169752836227417" blue="0.13425925374031067" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color red="0.7368420958518982" green="0.3488060534000397" blue="0.13986355066299438" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </RadialGradient>
+               </textFill>
+               <effect>
+                  <DropShadow blurType="GAUSSIAN" height="10.0" offsetX="2.0" offsetY="2.0" radius="4.5" spread="1.0" width="10.0" />
+               </effect>
+            </Label>
+         </children>
+      </Pane>
    </children>
 </Pane>

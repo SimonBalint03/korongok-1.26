@@ -5,9 +5,45 @@
     -fx-arc-width: 5;
 }
 
+.beam {
+    -fx-fill: #B7B597;
+    -fx-stroke-width: 1;
+    -fx-stroke-type: centered;
+    -fx-arc-width: 10;
+    -fx-arc-height: 10;
+}
+
 .selected{
-    -fx-stroke: white;
+    -fx-stroke: #F1F1F1;
     -fx-stroke-width: 1.5;
     -fx-arc-height: 5;
     -fx-arc-width: 5;
+}
+
+#gameArea {
+    -fx-padding: 20;
+    -fx-alignment: center;
+}
+
+.peg {
+    -fx-stroke-width: 5;
+    -fx-stroke: #333333;
+}
+
+.button {
+    -fx-background-color: #FD9B63;
+    -fx-text-fill: #365E32;
+    -fx-font-weight: bold;
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+}
+
+.button:hover {
+    -fx-background-color: #FFD700;
+}
+
+#moveCounter {
+    -fx-font-size: 16px;
+    -fx-font-weight:bold;
+    -fx-text-fill:#333333;
 }

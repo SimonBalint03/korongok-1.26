@@ -1,5 +1,6 @@
 package game;
 
+import javafx.scene.layout.Pane;
 import model.Beam;
 import model.Disk;
 import model.GameState;
@@ -36,7 +37,7 @@ public class GameController {
 
     private BreadthFirstSearch solver = new BreadthFirstSearch();
 
-    private static final String GAMESTATE_XML = "src/main/resources/gamestate.xml";
+    private static final String GAMESTATE_XML = "gamestate.xml";
 
     @FXML
     private GridPane poles;
@@ -46,6 +47,9 @@ public class GameController {
 
     @FXML
     private Text moves;
+
+    @FXML
+    private Pane victoryPane;
 
     @FXML
     private void initialize(){
@@ -65,6 +69,7 @@ public class GameController {
     private void solveButtonClicked(ActionEvent actionEvent) {
         gameState.reset();
         solver.solveAndPrintSolution(gameState);
+        CheckVictory();
         RefreshGrid();
     }
 
@@ -74,6 +79,8 @@ public class GameController {
         selector.reset();
         RefreshGrid();
         CreateXML();
+        victoryPane.visibleProperty().set(false);
+        solve.disableProperty().set(false);
         Logger.debug("Restarting game...");
     }
 
@@ -122,13 +129,15 @@ public class GameController {
                 }
             }
         }
-        moves.setText("Moves: " + gameState.getNum_moves());
+        moves.setText("Lépések: " + gameState.getNum_moves());
     }
 
     private void CheckVictory() {
         if (gameState.isSolved()){
             //System.out.println("THE GAME IS SOLVED!");
             Logger.debug("THE GAME IS SOLVED!");
+            victoryPane.visibleProperty().set(true);
+            solve.disableProperty().set(true);
         }
     }
 
@@ -182,7 +191,7 @@ public class GameController {
             Logger.debug("Loading " + GAMESTATE_XML + "...");
             JAXBContext context = JAXBContext.newInstance(GameState.class);
             Unmarshaller unmarshaller = context.createUnmarshaller();
-            GameState state = (GameState) unmarshaller.unmarshal(new File(String.valueOf(getClass().getResourceAsStream(GAMESTATE_XML))));
+            GameState state = (GameState) unmarshaller.unmarshal(new File("src/main/resources/gamestate.xml"));
             //System.out.println("Succefully loaded gamestate.xml");
             Logger.debug("Loading "+ GAMESTATE_XML + " complete." );
             return state;
@@ -197,7 +206,7 @@ public class GameController {
             JAXBContext context = JAXBContext.newInstance(GameState.class);
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-            marshaller.marshal(gameState, new File(String.valueOf(getClass().getResourceAsStream(GAMESTATE_XML))));
+            marshaller.marshal(gameState, new File("src/main/resources/gamestate.xml"));
         } catch (JAXBException e) {
             e.printStackTrace();
         }
